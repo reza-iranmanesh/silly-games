@@ -1,0 +1,10 @@
+Objective:
+ASCII Character on the left shoots the ASCII character on the right
+
+How to play:
+'i' to move up
+'k' to move down
+space to shoot
+
+Notes:
+Works on Mac; should be fine on Linux too (or bash on windows)
