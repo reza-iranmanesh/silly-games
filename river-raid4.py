@@ -11,6 +11,8 @@ gui.geometry("800x800")
 canvas = Canvas(gui, width=800, height=800)
 canvas.pack()
 aircraft = canvas.create_rectangle(700, 700, 720, 702, fill='blue')
+enemy = canvas.create_rectangle(300, 50, 320, 60, fill='green')
+bullets = []
 
 def keyup(e):
     print('up', e.char)
@@ -37,9 +39,25 @@ def fire_bullet():
     bullet_y_end = aircraft_pos[3] + bullet_height
     print ("[%s, %s] and [%s, %s]" % (bullet_x_start, bullet_y_start, bullet_x_end, bullet_y_end))
     bullet = canvas.create_rectangle(bullet_x_start, bullet_y_start, bullet_x_end, bullet_y_end, fill='red')
+    bullets.append(bullet)
+    global enemy
     for i in range(1000):
         # _thread.start_new_thread(canvas.move, (bullet, 0, -18))
         canvas.move(bullet, 0, -18)
+        bullet_coords = canvas.coords(bullet)
+        if enemy:
+            enemy_coords = canvas.coords(enemy)
+            if enemy_coords[3] > bullet_coords[1] and \
+                    (
+                            enemy_coords[0] < bullet_coords[0] < enemy_coords[2] or
+                            enemy_coords[0] < bullet_coords[2] < enemy_coords[2]
+                    ):
+                canvas.delete(enemy)
+                canvas.delete(bullet)
+                enemy = None
+                break
+                pass
+
         gui.update()
 
 
