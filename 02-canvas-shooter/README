@@ -1,0 +1,10 @@
+Objective:
+shoot the enemy object on top of the tkinter canvas with the aircraft object at the bottom
+
+How to play:
+'j' to move left
+'l' to move right
+space to shoot
+
+Notes:
+Works on Mac; should be fine on other OSs too, needs tkinter
