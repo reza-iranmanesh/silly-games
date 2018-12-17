@@ -39,27 +39,29 @@ def fire_bullet():
     bullet_y_end = aircraft_pos[3] + bullet_height
     print ("[%s, %s] and [%s, %s]" % (bullet_x_start, bullet_y_start, bullet_x_end, bullet_y_end))
     bullet = canvas.create_rectangle(bullet_x_start, bullet_y_start, bullet_x_end, bullet_y_end, fill='red')
-    bullets.append(bullet)
+    move_bullet(bullet)
+
+def move_bullet(bullet, start=0):
+    print("start is: [%s]" % start)
     global enemy
-    for i in range(1000):
-        # _thread.start_new_thread(canvas.move, (bullet, 0, -18))
-        canvas.move(bullet, 0, -18)
-        bullet_coords = canvas.coords(bullet)
-        if enemy:
-            enemy_coords = canvas.coords(enemy)
-            if enemy_coords[3] > bullet_coords[1] and \
-                    (
-                            enemy_coords[0] < bullet_coords[0] < enemy_coords[2] or
-                            enemy_coords[0] < bullet_coords[2] < enemy_coords[2]
-                    ):
-                canvas.delete(enemy)
-                canvas.delete(bullet)
-                enemy = None
-                break
-                pass
-
-        gui.update()
-
+    speed = 18
+    if start > 1000:
+        return
+    canvas.move(bullet, 0, - speed)
+    bullet_coords = canvas.coords(bullet)
+    if enemy:
+        enemy_coords = canvas.coords(enemy)
+        if enemy_coords[3] > bullet_coords[1] and \
+                (
+                        enemy_coords[0] < bullet_coords[0] < enemy_coords[2] or
+                        enemy_coords[0] < bullet_coords[2] < enemy_coords[2]
+                ):
+            canvas.delete(enemy)
+            canvas.delete(bullet)
+            enemy = None
+            return
+            pass
+    gui.after(1, move_bullet, bullet, start + speed)
 
 def go_left():
     canvas.move(aircraft, - AIRCRAFT_SPEED, 0)
