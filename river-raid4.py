@@ -10,9 +10,17 @@ var = IntVar()
 gui.geometry("800x800")
 canvas = Canvas(gui, width=800, height=800)
 canvas.pack()
-aircraft = canvas.create_rectangle(700, 700, 720, 702, fill='blue')
+# aircraft = canvas.create_rectangle(700, 700, 720, 702, fill='blue')
+aircraft = canvas.create_polygon([
+    700, 700,
+    720, 700,
+    720, 702,
+    700, 702,
+    700, 700,
+], outline='red', fill='red', width=2)
 enemy = canvas.create_rectangle(300, 50, 320, 60, fill='green')
 bullets = []
+
 
 def keyup(e):
     print('up', e.char)
@@ -28,6 +36,7 @@ def move_keys_down(e):
         # _thread.start_new_thread(fire_bullet, ())
         fire_bullet()
 
+
 def fire_bullet():
     print("fire bullet!")
     bullet_width = 2
@@ -37,9 +46,10 @@ def fire_bullet():
     bullet_x_end = bullet_x_start + bullet_width
     bullet_y_start = aircraft_pos[3]
     bullet_y_end = aircraft_pos[3] + bullet_height
-    print ("[%s, %s] and [%s, %s]" % (bullet_x_start, bullet_y_start, bullet_x_end, bullet_y_end))
+    print("[%s, %s] and [%s, %s]" % (bullet_x_start, bullet_y_start, bullet_x_end, bullet_y_end))
     bullet = canvas.create_rectangle(bullet_x_start, bullet_y_start, bullet_x_end, bullet_y_end, fill='red')
     move_bullet(bullet)
+
 
 def move_bullet(bullet, start=0):
     print("start is: [%s]" % start)
@@ -63,6 +73,7 @@ def move_bullet(bullet, start=0):
             pass
     gui.after(1, move_bullet, bullet, start + speed)
 
+
 def go_left():
     canvas.move(aircraft, - AIRCRAFT_SPEED, 0)
 
@@ -80,4 +91,3 @@ def bind_keys(canvas):
 
 bind_keys(canvas)
 gui.mainloop()
-
